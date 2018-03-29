@@ -1,5 +1,4 @@
 //total trivia pseudocode
-
 // $("#empty").html("<button>start</button>");
 // $("#start").on("click", function(){
 //     console.log('its working');
@@ -35,5 +34,66 @@ var allQuestions = [{
     choices: ["red", "yellow", "green", "blue"],
     correctAnswer: 2
 },
+];
+var currentQuesion = 0;
+var correctAnswer =0;
 
-]
+function setupOptions(){
+    $('#question').html(parseInt(currentQuesion)+ 1 + ". " + allQuestions[currentQuesion].question);
+    var options = allQuestions[currentQuesion].choices;
+    var formHtml = '';
+    for (var i = 0; i <options.length; i++){
+        formHtml += '<div><input type="radio" name="option" value="' + i + '"id="option' + i + '"><label for="option' + i +'">'+
+        allQuestions[currentQuesion].choices[i] + '</label></div><br?>';
+    }
+    $('#form').html(formHtml);
+  $("#option0").prop('checked', true);
+};
+
+function checkAns() {
+  if ($("input[name=option]:checked").val() == allQuestions[currentQuestion].correctAnswer) {
+    correctAnswers++;
+  };
+};
+
+$(document).ready(function() {
+
+  $(".jumbotron").hide();
+  $('#start').click(function() {
+    $(".jumbotron").fadeIn();
+    $(this).hide();
+  });
+
+//   $(function() {
+//     $("#progressbar").progressbar({
+//       max: allQuestions.length - 1,
+//       value: 0
+//     });
+//   });
+
+  setupOptions();
+
+  $("#next").click(function() {
+    event.preventDefault();
+    checkAns();
+    currentQuestion++;
+    $(function() {
+      $("#progressbar").progressbar({
+        value: currentQuestion
+      });
+    });
+    if (currentQuestion < allQuestions.length) {
+      setupOptions();
+      if (currentQuestion == allQuestions.length - 1) {
+        $('#next').html("Submit");
+        $('#next').click(function() {
+          $(".jumbotron").hide();
+          $("#result").html("You correctly answered " + correctAnswers + " out of " + currentQuestion + " questions! ").hide();
+          $("#result").fadeIn(1500);
+        });
+
+      };
+
+    };
+  });
+});
