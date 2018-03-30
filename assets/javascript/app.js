@@ -19,6 +19,7 @@ var allQuestions = [{
     choices: ["entropy", "chemical equilibrium", "momentum", "relativity"],
     correctAnswer: 0
 },
+
 {
     question: "Which color is not considered to be one of the primary colors of light?",
     choices: ["red", "yellow", "green", "blue"],
@@ -77,7 +78,7 @@ $(document).ready(function () {
         }
         tick();
     }
-
+// hello world test
 
     // countdown(2);
     // $(function () {
