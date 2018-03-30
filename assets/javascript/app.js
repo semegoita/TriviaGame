@@ -47,19 +47,45 @@ function checkAns() {
 };
 
 $(document).ready(function () {
-
+    var timeoutHandle;
     $(".jumbotron").hide();
     $('#start').click(function () {
         $(".jumbotron").fadeIn();
         $(this).hide();
+        countdown();
     });
+    function countdown(minutes) {
+        var seconds = 60;
+        var mins = minutes
+        function tick() {
+            var counter = document.getElementById("cntdwn");
+            var current_minutes = 1
+            seconds--;
+            counter.innerHTML =
+                current_minutes + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+            if (seconds > 0) {
+                timeoutHandle = setTimeout(tick, 1000);
+            } else {
 
-    $(function () {
-        $("#progressbar").progressbar({
-            max: allQuestions.length - 1,
-            value: 0
-        });
-    });
+                if (mins > 1) {
+
+                    // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
+                    setTimeout(function () { countdown(mins - 1); }, 1000);
+
+                }
+            }
+        }
+        tick();
+    }
+
+
+    // countdown(2);
+    // $(function () {
+    //     $("#progressbar").progressbar({
+    //         max: allQuestions.length - 1,
+    //         value: 0
+    //     });
+    // });
 
     setupOptions();
 
@@ -67,11 +93,11 @@ $(document).ready(function () {
         event.preventDefault();
         checkAns();
         currentquestion++;
-        $(function () {
-            $("#progressbar").progressbar({
-                value: currentquestion
-            });
-        });
+        // $(function () {
+        //     $("#progressbar").progressbar({
+        //         value: currentquestion
+        //     });
+        // });
         if (currentquestion < allQuestions.length) {
             setupOptions();
             if (currentquestion == allQuestions.length - 1) {
